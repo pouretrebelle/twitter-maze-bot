@@ -1,5 +1,6 @@
 import MazeUnit from './MazeUnit';
 import MazeEdge from './MazeEdge';
+import MazePath from './MazePath';
 import { roundedRect } from './utils';
 
 class Maze {
@@ -31,7 +32,7 @@ class Maze {
     this.huntAndKill();
 
     // setup maze path
-    // mazePath.setup(&mazeUnits, mazeUnitPositions, unitsX, unitsY);
+    this.path = new MazePath(this);
   }
 
 
@@ -161,25 +162,26 @@ class Maze {
             this.size
           );
         }
-
       }
-
-      // cover start of maze
-      c.fillRect(
-        -this.wallWidth * 0.5,
-        this.wallWidth * 0.5,
-        this.size * 0.5 + this.wallWidth * 0.5,
-        this.size - this.wallWidth
-      );
-      // cover end of maze
-      c.fillRect(
-        (this.unitsX - 0.5) * this.size,
-        (this.unitsY - 1) * this.size + this.wallWidth * 0.5,
-        this.size * 0.5 + this.wallWidth * 0.5,
-        this.size - this.wallWidth
-      );
-
     }
+
+    // cover start of maze
+    c.fillRect(
+      -this.wallWidth * 0.5,
+      this.wallWidth * 0.5,
+      this.size * 0.5 + this.wallWidth * 0.5,
+      this.size - this.wallWidth
+    );
+    // cover end of maze
+    c.fillRect(
+      (this.unitsX - 0.5) * this.size,
+      (this.unitsY - 1) * this.size + this.wallWidth * 0.5,
+      this.size * 0.5 + this.wallWidth * 0.5,
+      this.size - this.wallWidth
+    );
+
+    // draw the path
+    this.path.draw(c);
 
   }
 
