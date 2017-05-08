@@ -7,10 +7,6 @@ class MazeEdge {
     this.x = Math.floor(x / 2);
     this.y = y;
     this.active = true;
-
-    // disable off the edges
-    if (x == this.maze.unitsX * 2) this.active = false;
-    if (y == this.maze.unitsY && x % 2) this.active = false;
   }
 
   deactivate() {
