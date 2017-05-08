@@ -7,9 +7,9 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "canvas": "^1.6.5",
     "deasync": "^0.1.9",
     "dotenv": "^4.0.0",
-    "node-osc": "^2.1.0",
     "twitter": "^1.7.0"
   },
   "engines": {
