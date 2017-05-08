@@ -167,16 +167,16 @@ class Maze {
 
     // cover start of maze
     c.fillRect(
-      -this.wallWidth * 0.5,
+      -this.wallWidth * 0.5 - 1,
       this.wallWidth * 0.5,
-      this.size * 0.5 + this.wallWidth * 0.5,
+      this.size * 0.5 + this.wallWidth * 0.5 + 1,
       this.size - this.wallWidth
     );
     // cover end of maze
     c.fillRect(
       (this.unitsX - 0.5) * this.size,
       (this.unitsY - 1) * this.size + this.wallWidth * 0.5,
-      this.size * 0.5 + this.wallWidth * 0.5,
+      this.size * 0.5 + this.wallWidth * 0.5 + 1,
       this.size - this.wallWidth
     );
 
