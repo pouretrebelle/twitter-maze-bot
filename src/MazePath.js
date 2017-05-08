@@ -75,7 +75,7 @@ class MazePath {
         (end.y + 0.5) * this.maze.size,
         this.pathHeadSize * 0.5,
         0,
-        Math.TWO_PI
+        2*Math.PI
       );
       c.fill();
     }
