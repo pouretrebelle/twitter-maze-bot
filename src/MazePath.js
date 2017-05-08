@@ -22,7 +22,7 @@ class MazePath {
 
     // if it's the first addition, change the path color
     if (this.segments.length == 2) {
-      this.pathColor.set(this.segments[1].color);
+      this.pathColor = this.segments[1].color;
     }
   }
 
@@ -34,6 +34,35 @@ class MazePath {
     }
     // otherwise return the origin
     return this.maze.units[0][0];
+  }
+
+  travel(direction, color) {
+    // don't move if the path is complete
+    if (this.complete) return;
+
+    // get the end of the line
+    let current = this.last();
+    let hitJunction = false;
+
+    // move until you hit a wall
+    while (!current.edges[direction].disabled && !current.edges[direction].active && !hitJunction) {
+      current = current.neighbours[direction];
+
+      // if the new unit has fewer than 2 edges then you've hit a junction and should stop moving
+      if (current.countWalls() != 2) {
+        hitJunction = true;
+      }
+    }
+
+    // if it has moved, add it to the path
+    if (current != this.last()) {
+      this.addToPath(current.x, current.y, color);
+    }
+
+    // if the current unit is the last one on the grid the maze is complete!
+    if (current.x == this.maze.unitsX-1 && current.y == this.maze.unitsY-1 && direction == 2) {
+      this.complete = true;
+    }
   }
 
   draw(c) {

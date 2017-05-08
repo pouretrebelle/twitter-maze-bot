@@ -60,6 +60,14 @@ class MazeUnit {
     this.active = true;
   }
 
+  countWalls() {
+    let count = 0;
+    for (let i = 0; i < 4; i++) {
+      if (this.edges[i].active) count++;
+    }
+    return count;
+  }
+
   countInactiveNeighbours() {
     // returns number of inactive neighbours
     let inactiveNeighbours = 0;
