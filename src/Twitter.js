@@ -33,7 +33,7 @@ class TwitterUtils {
     // if the streamed tweet is a reply to the tracked one then respond to it
     if (event.in_reply_to_status_id_str == this.trackingId) {
 
-      const color = event.user.profile_link_color;
+      const color = '#'+event.user.profile_link_color;
 
       // sanitise the text
       let text = event.text;
