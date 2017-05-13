@@ -45,7 +45,9 @@ class MazePath {
     let hitJunction = false;
 
     // move until you hit a wall
-    while (!current.edges[direction].disabled && !current.edges[direction].active && !hitJunction) {
+    while (current.neighbours[direction] &&
+           !current.edges[direction].active &&
+           !hitJunction) {
       current = current.neighbours[direction];
 
       // if the new unit has fewer than 2 edges then you've hit a junction and should stop moving

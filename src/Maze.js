@@ -4,9 +4,10 @@ import MazePath from './MazePath';
 import { roundedRect } from './utils';
 
 class Maze {
-  constructor(w, unitsX, unitsY, margin, wallWidth, wallBorderRadius, wallColor, backgroundColor) {
+  constructor(c, w, unitsX, unitsY, margin, wallWidth, wallBorderRadius, wallColor, backgroundColor) {
 
     // assign variables
+    this.c = c;
     this.w = w;
     this.unitsX = unitsX;
     this.unitsY = unitsY;
@@ -117,10 +118,21 @@ class Maze {
   }
 
 
+  // Travelling
+  //===================================
+
+  processDirections(directions, color) {
+    for (let i = 0; i < directions.length; i++) {
+      this.path.travel(directions[i], color);
+    }
+  }
+
+
   // Drawing methods
   //===================================
 
-  draw(c) {
+  draw() {
+    const c = this.c;
 
     // instead of drawing walls we draw each unit and connect them
     // this is just for the slightly rounded inner walls
