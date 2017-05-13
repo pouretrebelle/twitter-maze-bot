@@ -63,7 +63,7 @@ class MazeUnit {
   countWalls() {
     let count = 0;
     for (let i = 0; i < 4; i++) {
-      if (this.edges[i].active) count++;
+      if (this.edges[i].active || this.edges[i] === false) count++;
     }
     return count;
   }
