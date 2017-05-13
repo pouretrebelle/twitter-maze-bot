@@ -13,7 +13,7 @@ class TwitterUtils {
     this.client = new Twitter(config);
 
     this.setupStream();
-    // this.newMaze();
+    this.newMaze();
   }
 
   setupStream() {
@@ -52,12 +52,16 @@ class TwitterUtils {
           directions.push(1);
         }
         else if (word == 'down' || word == 'd') {
-          directions.push(1);
+          directions.push(2);
         }
       });
 
+      console.log(directions);
+
       // send directions to maze to process
       this.maze.processDirections(directions, color);
+
+      this.maze.draw();
 
       if (this.maze.path.complete) {
         this.mazeComplete();
@@ -65,6 +69,10 @@ class TwitterUtils {
       }
 
       this.sendReply(event);
+
+      // const fs = require('fs');
+      // fs.writeFile('out.png', this.canvas.toBuffer(), () => {});
+
     }
   }
 
@@ -117,7 +125,6 @@ class TwitterUtils {
 
     if (tweetData) {
       this.trackingId = tweetData.id_str;
-      console.log(tweetData);
     }
   }
 
@@ -125,11 +132,11 @@ class TwitterUtils {
     var ret;
     this.client.post('media/upload', { media_data: imageData }, function (error, data, response) {
       if (!error) {
-        console.log('media uplaoded');
+        console.log('media uploaded');
         ret = data.media_id_string;
       }
       else {
-        console.log('media not uplaoded');
+        console.log('media not uploaded');
         ret = false;
       }
     });
