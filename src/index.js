@@ -25,19 +25,3 @@ let twitter = new Twitter({
 process.env.TWITTER_USERNAME,
 canvas,
 maze);
-
-twitter.client.stream('statuses/filter', { track: '@' + process.env.TWITTER_USERNAME }, function (stream) {
-  stream.on('data', function (event) {
-    console.log(event);
-  });
-  stream.on('error', function (error) {
-    console.log(error);
-  });
-});
-
-// maze.draw(c);
-
-// const fs = require('fs');
-// fs.writeFile('out.png', canvas.toBuffer(), function() {
-//   process.exit();
-// });

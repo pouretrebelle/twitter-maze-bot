@@ -56,7 +56,7 @@ class TwitterUtils {
         }
       });
 
-      console.log(directions);
+      // console.log(directions);
 
       // send directions to maze to process
       this.maze.processDirections(directions, color);
@@ -85,7 +85,7 @@ class TwitterUtils {
   //===================================
 
   newMaze() {
-    console.log('new maze');
+    // console.log('new maze');
 
     // reset contributors
     this.contributors = [];
@@ -160,11 +160,11 @@ class TwitterUtils {
     var ret;
     this.client.post('media/upload', { media_data: imageData }, function (error, data, response) {
       if (!error) {
-        console.log('media uploaded');
+        // console.log('media uploaded');
         ret = data.media_id_string;
       }
       else {
-        console.log('media not uploaded');
+        // console.log('media not uploaded');
         ret = false;
       }
     });
@@ -184,12 +184,12 @@ class TwitterUtils {
 
     this.client.post('statuses/update', tweetData, function (error, data, response) {
       if (!error) {
-        console.log('tweeted');
+        // console.log('tweeted');
         // return the data of successful tweet;
         ret = data;
       }
       else {
-        console.log('not tweeted');
+        // console.log('not tweeted');
         ret = false;
       }
     });
