@@ -62,9 +62,15 @@ class MazePath {
     }
 
     // if the current unit is the last one on the grid the maze is complete!
-    if (current.x == this.maze.unitsX-1 && current.y == this.maze.unitsY-1 && direction == 2) {
+    if (current.x == this.maze.unitsX-1 && current.y == this.maze.unitsY-1 && direction == 1) {
       this.complete = true;
     }
+  }
+
+  reset() {
+    this.complete = false;
+    this.pathColor = this.originalPathColor;
+    this.segments.splice(1);
   }
 
   draw(c) {
@@ -83,7 +89,7 @@ class MazePath {
     // draw end of path if it's finished
     if (this.complete) {
       // set the colour to the last segment
-      c.fillStyle = this.segments[this.segments.length].color;
+      c.fillStyle = this.segments[this.segments.length - 1].color;
       c.fillRect(
         (this.maze.unitsX - 0.5) * this.maze.size,
         (this.maze.unitsY - 0.5) * this.maze.size - this.pathWidth * 0.5,

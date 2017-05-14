@@ -102,7 +102,36 @@ class TwitterUtils {
   }
 
   mazeComplete() {
+    // compose tweet string
+    var status = 'Maze completed!';
+    if (this.contributors.length != 0) {
+      status += '\nThanks to ';
+      // add this.contributors
+      var i = 0;
+      while (status.length <= 141 && i < this.contributors.length) {
+        status += this.contributors[i] + ', ';
+        i++;
+      }
+      // trim last 2 characters
+      status = status.substring(0, status.length - 2);
+      // if it's still longer than 140
+      if (status.length > 140) {
+        // remove the last username and its comma and space
+        var trim = 2 + this.contributors[i - 1].length;
+        // add an ellipses
+        status = status.substring(0, status.length - trim) + '…';
+      }
+    }
+
+    const imageId = this.uploadMedia(this.canvas.toBuffer().toString('base64'));
+    var tweetData = this.postTweet({
+      status: status,
+      mediaId: imageId,
+    });
+
+    // reset and tweet
     this.maze.regenerate();
+    this.newMaze();
   }
 
 
@@ -115,8 +144,7 @@ class TwitterUtils {
       this.contributors.push('@' + event.user.screen_name);
     }
 
-    var image = '';
-    var imageId = this.uploadMedia(this.canvas.toBuffer().toString('base64'));
+    const imageId = this.uploadMedia(this.canvas.toBuffer().toString('base64'));
     var tweetData = this.postTweet({
       status: '@' + event.user.screen_name,
       mediaId: imageId,

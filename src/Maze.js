@@ -64,6 +64,18 @@ class Maze {
     }
   }
 
+  regenerate() {
+    // we don't want to reset the start and end
+    for (let x = 0; x <= this.unitsX * 2 + 1; x++) {
+      for (let y = 0; y <= this.unitsY; y++) {
+        this.edges[x][y].active = true;
+      }
+    }
+
+    this.huntAndKill();
+    this.path.reset();
+  }
+
 
   // Carving algorithms
   //===================================
@@ -133,6 +145,10 @@ class Maze {
 
   draw() {
     const c = this.c;
+
+    // destroy everything
+    c.fillStyle = this.backgroundColor;
+    c.fillRect(-100, -100, this.w + 200, this.h + 200);
 
     // instead of drawing walls we draw each unit and connect them
     // this is just for the slightly rounded inner walls
