@@ -1,4 +1,4 @@
-# Twitter Maze Bot in openFrameworks
+# Twitter Maze Bot
 
 This program algorithmically generates mazes and can be interacted with through twitter.
 
@@ -16,7 +16,12 @@ Clone `.env-example`, rename it to `.env` and fill in with Twitter access keys a
 
 `npm run build && npm run serve` - run the current instance without a file watcher.
 
-`npm run forever` - start a persistant instance using [forever](https://github.com/foreverjs/forever).
+`npm run build && npm run forever` - start a persistant instance using [forever](https://github.com/foreverjs/forever).
+
+
+## Screenshots
+
+![Completed Mazes](/screenshots/twitter.jpg?raw=true)
 
 
 ## References
