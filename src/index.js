@@ -15,7 +15,7 @@ c.fillRect(0, 0, 1024, 512);
 // translate so maze draws in centre
 c.translate(46.75, 52);
 
-let maze = new Maze(c, 930, 20, 9, 46, 6, 8, '#000', '#fff');
+let maze = new Maze(c, 930, 20, 9, 46, 6, 14, '#000', '#fff');
 let twitter = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
   consumer_secret: process.env.CONSUMER_SECRET,
