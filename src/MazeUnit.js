@@ -1,5 +1,3 @@
-import { outlineArc } from './utils';
-
 class MazeUnit {
   constructor(x, y, maze) {
     this.x = x;
@@ -55,15 +53,6 @@ class MazeUnit {
   }
 
   draw(c) {
-    c.fillStyle = this.maze.wallColor;
-    // top left
-    this.checkCorner(c, 0, 3, 2);
-    // top right
-    this.checkCorner(c, 0, 1, 3);
-    // bottom right
-    this.checkCorner(c, 1, 2, 0);
-    // bottom left
-    this.checkCorner(c, 2, 3, 1)
   }
 
   checkCorner(c, one, two, corner) {
