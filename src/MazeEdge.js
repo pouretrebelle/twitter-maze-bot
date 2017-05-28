@@ -23,23 +23,27 @@ class MazeEdge {
     this.active = false;
   }
 
-  dontDraw() {
+  cantDraw() {
     return (!this.active || this.disabled);
   }
 
+  canDraw() {
+    return (this.active && !this.disabled);
+  }
+
   extendThroughNextEdge() {
-    if (this.vert && this.maze.edges[this.x * 2 + 1][this.y + 1].dontDraw() ||
-      !this.vert && this.maze.edges[this.x * 2 + 2][this.y].dontDraw()) {
+    if (this.vert && this.maze.edges[this.x * 2 + 1][this.y + 1].cantDraw() ||
+      !this.vert && this.maze.edges[this.x * 2 + 2][this.y].cantDraw()) {
       return false;
     }
     return true;
   }
 
   draw(c) {
-    if (this.dontDraw()) return;
+    if (this.cantDraw()) return;
 
     const extendWall = this.extendThroughNextEdge();
-    let wallLength = extendWall ? this.maze.size : this.maze.size - this.maze.wallBorderRadius * 2;
+    let wallLength = extendWall ? this.maze.size : this.maze.size - this.maze.wallBorderRadius * 2 + this.maze.wallWidth;
 
     c.fillStyle = this.maze.wallColor;
     c.save();
@@ -50,7 +54,7 @@ class MazeEdge {
       // cap start
       c.arc(
         0,
-        this.maze.wallBorderRadius,
+        this.maze.wallBorderRadius - this.maze.wallWidth*0.5,
         this.maze.wallWidth*0.5,
         0,
         Math.PI*2
@@ -59,7 +63,7 @@ class MazeEdge {
         // cap end
         c.arc(
           0,
-          this.maze.wallBorderRadius + wallLength,
+          this.maze.wallBorderRadius + wallLength - this.maze.wallWidth*0.5,
           this.maze.wallWidth * 0.5,
           0,
           Math.PI * 2
@@ -68,7 +72,7 @@ class MazeEdge {
       c.fill();
       c.fillRect(
         -this.maze.wallWidth * 0.5,
-        this.maze.wallBorderRadius,
+        this.maze.wallBorderRadius - this.maze.wallWidth*0.5,
         this.maze.wallWidth,
         wallLength
       );
@@ -78,7 +82,7 @@ class MazeEdge {
       c.beginPath();
       // cap start
       c.arc(
-        this.maze.wallBorderRadius,
+        this.maze.wallBorderRadius - this.maze.wallWidth*0.5,
         0,
         this.maze.wallWidth * 0.5,
         0,
@@ -87,7 +91,7 @@ class MazeEdge {
       if (!extendWall) {
         // cap end
         c.arc(
-          this.maze.wallBorderRadius + wallLength,
+          this.maze.wallBorderRadius + wallLength - this.maze.wallWidth*0.5,
           0,
           this.maze.wallWidth * 0.5,
           0,
@@ -96,7 +100,7 @@ class MazeEdge {
       }
       c.fill();
       c.fillRect(
-        this.maze.wallBorderRadius,
+        this.maze.wallBorderRadius - this.maze.wallWidth*0.5,
         -this.maze.wallWidth * 0.5,
         wallLength,
         this.maze.wallWidth

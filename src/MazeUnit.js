@@ -1,3 +1,5 @@
+import { outlineArc } from './utils';
+
 class MazeUnit {
   constructor(x, y, maze) {
     this.x = x;
@@ -54,7 +56,47 @@ class MazeUnit {
 
   draw(c) {
     c.fillStyle = this.maze.wallColor;
-    // c.fillRect(this.x * this.maze.size, this.y * this.maze.size, this.maze.size, this.maze.size);
+    // top left
+    this.checkCorner(c, 0, 3, 2);
+    // top right
+    this.checkCorner(c, 0, 1, 3);
+    // bottom right
+    this.checkCorner(c, 1, 2, 0);
+    // bottom left
+    this.checkCorner(c, 2, 3, 1)
+  }
+
+  checkCorner(c, one, two, corner) {
+    if (
+      (this.edges[one] === false ||
+      this.edges[one].canDraw()) &&
+      (this.edges[two] === false ||
+      this.edges[two].canDraw())) {
+      this.drawCorner(c, corner);
+    }
+  }
+
+  drawCorner(c, corner) {
+    let x = this.x * this.maze.size;
+    let y = this.y * this.maze.size;
+    if (corner == 0 || corner == 3) {
+      x += this.maze.size - (this.maze.wallBorderRadius - this.maze.wallWidth * 0.5);
+    } else {
+      x += (this.maze.wallBorderRadius - this.maze.wallWidth * 0.5);
+    }
+    if (corner == 1 || corner == 0) {
+      y += this.maze.size - (this.maze.wallBorderRadius - this.maze.wallWidth*0.5);
+    } else {
+      y += (this.maze.wallBorderRadius - this.maze.wallWidth * 0.5);
+    }
+    outlineArc(
+      c,
+      x,
+      y,
+      corner,
+      this.maze.wallBorderRadius,
+      this.maze.wallBorderRadius-this.maze.wallWidth,
+    );
   }
 
   activate() {

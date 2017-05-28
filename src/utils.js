@@ -12,4 +12,17 @@ const roundedRect = function(c, x, y, width, height, radius) {
   c.fill();
 };
 
-export { roundedRect };
+const outlineArc = function(c, x, y, corner, outerRadius, innerRadius) {
+  c.save();
+  c.translate(x, y);
+  c.rotate(Math.PI*corner*0.5);
+  c.beginPath();
+  c.moveTo(innerRadius, 0);
+  c.arcTo(innerRadius, innerRadius, 0, innerRadius, innerRadius);
+  c.lineTo(0, outerRadius);
+  c.arcTo(outerRadius, outerRadius, outerRadius, 0, outerRadius);
+  c.fill();
+  c.restore();
+}
+
+export { roundedRect, outlineArc };
