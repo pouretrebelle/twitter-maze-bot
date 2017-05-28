@@ -65,20 +65,22 @@ class MazeEdge {
       m.wallWidth
     );
 
-    let curveStart = this.vert ? this.checkRelativeEdge(-3, 0) : this.checkRelativeEdge(1, 0);
-    let curveEnd = this.vert ? this.checkRelativeEdge(-1, 1) : this.checkRelativeEdge(3, -1);
+    let curveStartLeft = this.vert ? this.checkRelativeEdge(-3, 0) : this.checkRelativeEdge(1, 0);
+    let curveEndLeft = this.vert ? this.checkRelativeEdge(-1, 1) : this.checkRelativeEdge(3, -1);
 
-    let capStart = this.vert ? !this.checkRelativeEdge(-1, 0) : !this.checkRelativeEdge(1, -1);
-    let capEnd = this.vert ? !this.checkRelativeEdge(-3, 1) : !this.checkRelativeEdge(3, 0);
+    let curveStartRight = this.vert ? this.checkRelativeEdge(-1, 0) : this.checkRelativeEdge(1, -1);
+    let curveEndRight = this.vert ? this.checkRelativeEdge(-3, 1) : this.checkRelativeEdge(3, 0);
 
-    if (curveStart) this.drawCurve(c);
-    if (capStart && !curveStart) this.drawCap(c);
+    if (curveStartLeft && curveStartRight) this.drawCurveWithT(c);
+    else if (curveStartLeft) this.drawCurve(c);
+    else if (!curveStartRight) this.drawCap(c);
 
     c.translate(m.size, 0);
     c.rotate(Math.PI);
 
-    if (curveEnd) this.drawCurve(c);
-    if (capEnd && !curveEnd) this.drawCap(c);
+    if (curveEndLeft && curveEndRight) this.drawCurveWithT(c);
+    else if (curveEndLeft) this.drawCurve(c);
+    else if (!curveEndRight) this.drawCap(c);
 
     c.restore();
   }
@@ -92,6 +94,16 @@ class MazeEdge {
       this.maze.wallBorderRadius - this.maze.wallWidth,
       Math.PI
     );
+  }
+
+  drawCurveWithT(c) {
+    this.drawCurve(c);
+    c.beginPath();
+    c.moveTo(-this.maze.wallWidth * 0.5, this.maze.wallBorderRadius);
+    c.arcTo(-this.maze.wallWidth * 0.5, 0, this.maze.wallBorderRadius - this.maze.wallWidth * 0.5, 0, this.maze.wallBorderRadius);
+    c.arcTo(-this.maze.wallWidth * 0.5, 0, -this.maze.wallWidth * 0.5, -this.maze.wallBorderRadius, this.maze.wallBorderRadius);
+    c.lineTo(-this.maze.wallWidth * 0.5, -this.maze.wallBorderRadius);
+    c.fill();
   }
 
   drawCap(c) {
