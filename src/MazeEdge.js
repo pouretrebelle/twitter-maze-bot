@@ -68,20 +68,17 @@ class MazeEdge {
     let curveStart = this.vert ? this.checkRelativeEdge(-3, 0) : this.checkRelativeEdge(1, 0);
     let curveEnd = this.vert ? this.checkRelativeEdge(-1, 1) : this.checkRelativeEdge(3, -1);
 
-    if (!curveStart) {
-      this.drawCap(c);
-    } else {
-      this.drawCurve(c);
-    }
+    let capStart = this.vert ? !this.checkRelativeEdge(-1, 0) : !this.checkRelativeEdge(1, -1);
+    let capEnd = this.vert ? !this.checkRelativeEdge(-3, 1) : !this.checkRelativeEdge(3, 0);
+
+    if (curveStart) this.drawCurve(c);
+    if (capStart && !curveStart) this.drawCap(c);
 
     c.translate(m.size, 0);
     c.rotate(Math.PI);
 
-    if (!curveEnd) {
-      this.drawCap(c);
-    } else {
-      this.drawCurve(c);
-    }
+    if (curveEnd) this.drawCurve(c);
+    if (capEnd && !curveEnd) this.drawCap(c);
 
     c.restore();
   }
