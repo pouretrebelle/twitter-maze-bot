@@ -2,31 +2,108 @@ class MazeEdge {
   constructor(x, y, maze) {
     this.maze = maze;
     this.vert = false;
-    if (x % 2 == 0) this.vert = true;
+    if (x % 2 == 1) this.vert = true;
 
     this.x = Math.floor(x / 2);
     this.y = y;
     this.active = true;
+    this.disabled = false;
+
+    // bottom
+    if (this.vert && this.y == this.maze.unitsY) this.disabled = true;
+    // right
+    if (!this.vert && this.x == this.maze.unitsX) this.disabled = true;
+    // top left
+    if (this.vert && this.x == 0 && this.y == 0) this.disabled = true;
+    // bottom right
+    if (this.vert && this.x == this.maze.unitsX && this.y == this.maze.unitsY - 1) this.disabled = true;
   }
 
   deactivate() {
     this.active = false;
   }
 
-  draw(c) {
-    if (!this.active) return;
+  dontDraw() {
+    return (!this.active || this.disabled);
+  }
 
-    c.strokeStyle = this.maze.wallColor;
-    c.beginPath();
-    c.moveTo(this.x * this.maze.size, this.y * this.maze.size);
+  extendThroughNextEdge() {
+    if (this.vert && this.maze.edges[this.x * 2 + 1][this.y + 1].dontDraw() ||
+      !this.vert && this.maze.edges[this.x * 2 + 2][this.y].dontDraw()) {
+      return false;
+    }
+    return true;
+  }
+
+  draw(c) {
+    if (this.dontDraw()) return;
+
+    const extendWall = this.extendThroughNextEdge();
+    let wallLength = extendWall ? this.maze.size : this.maze.size - this.maze.wallBorderRadius * 2;
+
+    c.fillStyle = this.maze.wallColor;
+    c.save();
+    c.translate(this.x * this.maze.size, this.y * this.maze.size);
+
     if (this.vert) {
-      c.lineTo((this.x + 1) * this.maze.size, this.y * this.maze.size);
+      c.beginPath();
+      // cap start
+      c.arc(
+        0,
+        this.maze.wallBorderRadius,
+        this.maze.wallWidth*0.5,
+        0,
+        Math.PI*2
+      );
+      if (!extendWall) {
+        // cap end
+        c.arc(
+          0,
+          this.maze.wallBorderRadius + wallLength,
+          this.maze.wallWidth * 0.5,
+          0,
+          Math.PI * 2
+        );
+      }
+      c.fill();
+      c.fillRect(
+        -this.maze.wallWidth * 0.5,
+        this.maze.wallBorderRadius,
+        this.maze.wallWidth,
+        wallLength
+      );
     }
+
     else {
-      c.lineTo(this.x * this.maze.size, (this.y + 1) * this.maze.size);
+      c.beginPath();
+      // cap start
+      c.arc(
+        this.maze.wallBorderRadius,
+        0,
+        this.maze.wallWidth * 0.5,
+        0,
+        Math.PI * 2
+      );
+      if (!extendWall) {
+        // cap end
+        c.arc(
+          this.maze.wallBorderRadius + wallLength,
+          0,
+          this.maze.wallWidth * 0.5,
+          0,
+          Math.PI * 2
+        );
+      }
+      c.fill();
+      c.fillRect(
+        this.maze.wallBorderRadius,
+        -this.maze.wallWidth * 0.5,
+        wallLength,
+        this.maze.wallWidth
+      );
     }
-    c.closePath();
-    c.stroke();
+
+    c.restore();
   }
 }
 

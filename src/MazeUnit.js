@@ -53,7 +53,8 @@ class MazeUnit {
   }
 
   draw(c) {
-    c.fillRect(this.x * this.maze.size, this.y * this.maze.size, this.maze.size, this.maze.size);
+    c.fillStyle = this.maze.wallColor;
+    // c.fillRect(this.x * this.maze.size, this.y * this.maze.size, this.maze.size, this.maze.size);
   }
 
   activate() {
