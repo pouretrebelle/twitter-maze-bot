@@ -56,12 +56,12 @@ class TwitterUtils {
         }
       });
 
-      // console.log(directions);
-
       // send directions to maze to process
       this.maze.processDirections(directions, color);
 
       this.maze.draw();
+
+      this.addToContributors(event);
 
       if (this.maze.path.complete) {
         this.mazeComplete();
@@ -138,12 +138,14 @@ class TwitterUtils {
   // Replying
   //===================================
 
-  sendReply = (event) => {
+  addToContributors = (event) => {
     // add username to list of contributors
     if (this.contributors.indexOf('@' + event.user.screen_name) == -1) {
       this.contributors.push('@' + event.user.screen_name);
     }
+  }
 
+  sendReply = (event) => {
     const imageId = this.uploadMedia(this.canvas.toBuffer().toString('base64'));
     var tweetData = this.postTweet({
       status: '@' + event.user.screen_name,
