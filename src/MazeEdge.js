@@ -1,3 +1,5 @@
+import { outlineArc } from './utils';
+
 class MazeEdge {
   constructor(x, y, maze) {
     this.maze = maze;
@@ -31,12 +33,16 @@ class MazeEdge {
     return (this.active && !this.disabled);
   }
 
-  extendThroughNextEdge() {
-    if (this.vert && this.maze.edges[this.x * 2 + 1][this.y + 1].cantDraw() ||
-      !this.vert && this.maze.edges[this.x * 2 + 2][this.y].cantDraw()) {
-      return false;
+  checkRelativeEdge(x, y) {
+    const targetX = this.vert ? this.x*2+1+x : this.x*2+x;
+    const targetY = this.y + y;
+    let curve = false;
+    if (this.maze.edges[targetX] &&
+        this.maze.edges[targetX][targetY] &&
+        this.maze.edges[targetX][targetY].canDraw()) {
+      curve = true;
     }
-    return true;
+    return curve;
   }
 
   draw(c) {
@@ -59,11 +65,13 @@ class MazeEdge {
       m.wallWidth
     );
 
-    let curveStart = false;
-    let curveEnd = false;
+    let curveStart = this.vert ? this.checkRelativeEdge(-3, 0) : this.checkRelativeEdge(1, 0);
+    let curveEnd = this.vert ? this.checkRelativeEdge(-1, 1) : this.checkRelativeEdge(3, -1);
 
     if (!curveStart) {
       this.drawCap(c);
+    } else {
+      this.drawCurve(c);
     }
 
     c.translate(m.size, 0);
@@ -71,9 +79,22 @@ class MazeEdge {
 
     if (!curveEnd) {
       this.drawCap(c);
+    } else {
+      this.drawCurve(c);
     }
 
     c.restore();
+  }
+
+  drawCurve(c) {
+    outlineArc(
+      c,
+      this.maze.wallBorderRadius - this.maze.wallWidth * 0.5,
+      this.maze.wallBorderRadius - this.maze.wallWidth * 0.5,
+      this.maze.wallBorderRadius,
+      this.maze.wallBorderRadius - this.maze.wallWidth,
+      Math.PI
+    );
   }
 
   drawCap(c) {

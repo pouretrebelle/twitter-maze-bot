@@ -12,10 +12,10 @@ const roundedRect = function(c, x, y, width, height, radius) {
   c.fill();
 };
 
-const outlineArc = function(c, x, y, corner, outerRadius, innerRadius) {
+const outlineArc = function(c, x, y, outerRadius, innerRadius, angle) {
   c.save();
   c.translate(x, y);
-  c.rotate(Math.PI*corner*0.5);
+  c.rotate(angle);
   c.beginPath();
   c.moveTo(innerRadius, 0);
   c.arcTo(innerRadius, innerRadius, 0, innerRadius, innerRadius);
