@@ -3,7 +3,7 @@ import MazeEdge from './MazeEdge';
 import MazePath from './MazePath';
 
 class Maze {
-  constructor(c, w, unitsX, unitsY, margin, wallWidth, wallBorderRadius, wallColor, backgroundColor) {
+  constructor(c, w, unitsX, unitsY, wallWidth, wallBorderRadius, wallColor, backgroundColor) {
 
     // assign variables
     this.c = c;
@@ -12,7 +12,6 @@ class Maze {
     this.unitsY = unitsY;
     this.size = w / unitsX;
     this.h = unitsY * this.size;
-    this.margin = margin;
     this.wallWidth = wallWidth;
     this.wallBorderRadius = wallBorderRadius;
     this.wallColor = wallColor;
