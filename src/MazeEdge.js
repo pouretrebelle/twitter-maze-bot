@@ -15,10 +15,10 @@ class MazeEdge {
     if (this.vert && this.y == this.maze.unitsY) this.disabled = true;
     // right
     if (!this.vert && this.x == this.maze.unitsX) this.disabled = true;
-    // top left
-    if (this.vert && this.x == 0 && this.y == 0) this.disabled = true;
-    // bottom right
-    if (this.vert && this.x == this.maze.unitsX && this.y == this.maze.unitsY - 1) this.disabled = true;
+    // entrance
+    if (this.vert && this.x == 0 && this.y == this.maze.entranceY) this.disabled = true;
+    // exit
+    if (this.vert && this.x == this.maze.unitsX && this.y == this.maze.exitY) this.disabled = true;
   }
 
   deactivate() {

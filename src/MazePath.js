@@ -10,7 +10,7 @@ class MazePath {
     this.pathHeadSize = 14;
     this.segments = [];
 
-    this.addToPath(0, 0, this.pathColor);
+    this.addToPath(0, this.maze.entranceY, this.pathColor);
   }
 
   addToPath(x, y, color) {
@@ -33,7 +33,7 @@ class MazePath {
       return this.segments[this.segments.length - 1].end;
     }
     // otherwise return the origin
-    return this.maze.units[0][0];
+    return this.maze.units[0][this.maze.entranceY];
   }
 
   travel(direction, color) {
@@ -54,6 +54,12 @@ class MazePath {
       if (current.countWalls() != 2) {
         hitJunction = true;
       }
+
+      // stop if the new unit is at the cusp of the exit
+      if (current.x == this.maze.unitsX - 1 &&
+          current.y == this.maze.exitY) {
+        hitJunction = true;
+      }
     }
 
     // if it has moved, add it to the path
@@ -62,7 +68,7 @@ class MazePath {
     }
 
     // if the current unit is the last one on the grid the maze is complete!
-    if (current.x == this.maze.unitsX-1 && current.y == this.maze.unitsY-1 && direction == 1) {
+    if (current.x == this.maze.unitsX-1 && current.y == this.maze.exitY && direction == 1) {
       this.complete = true;
     }
   }
@@ -81,7 +87,7 @@ class MazePath {
     // draw start of path
     c.fillRect(
       -this.maze.size,
-      0.5 * this.maze.size - this.pathWidth * 0.5,
+      (0.5 + this.maze.entranceY) * this.maze.size - this.pathWidth * 0.5,
       1.5 * this.maze.size,
       this.pathWidth
     );
@@ -92,7 +98,7 @@ class MazePath {
       c.fillStyle = this.segments[this.segments.length - 1].color;
       c.fillRect(
         (this.maze.unitsX - 0.5) * this.maze.size,
-        (this.maze.unitsY - 0.5) * this.maze.size - this.pathWidth * 0.5,
+        (0.5 + this.maze.exitY) * this.maze.size - this.pathWidth * 0.5,
         1.5 * this.maze.size,
         this.pathWidth
       );

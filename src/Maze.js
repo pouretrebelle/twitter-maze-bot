@@ -17,6 +17,8 @@ class Maze {
     this.wallBorderRadius = wallBorderRadius;
     this.wallColor = wallColor;
     this.backgroundColor = backgroundColor;
+    this.entranceY = Math.floor(Math.random() * unitsY);
+    this.exitY = Math.floor(Math.random() * unitsY);
 
     // initialise units and edges as arrays of arrays
     this.units = Array.from({ length: this.unitsX + 1 }, () => []);
