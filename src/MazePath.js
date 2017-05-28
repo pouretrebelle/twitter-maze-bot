@@ -76,8 +76,9 @@ class MazePath {
   reset() {
     this.complete = false;
     this.pathColor = this.originalPathColor;
-    this.segments.splice(1);
-  }
+    this.segments = [];
+    this.addToPath(0, this.maze.entranceY, this.pathColor);
+}
 
   draw(c) {
 

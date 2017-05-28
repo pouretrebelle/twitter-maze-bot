@@ -16,9 +16,9 @@ class MazeEdge {
     // right
     if (!this.vert && this.x == this.maze.unitsX) this.disabled = true;
     // entrance
-    if (this.vert && this.x == 0 && this.y == this.maze.entranceY) this.disabled = true;
+    if (this.vert && this.x == 0 && this.y == this.maze.entranceY) this.active = false;
     // exit
-    if (this.vert && this.x == this.maze.unitsX && this.y == this.maze.exitY) this.disabled = true;
+    if (this.vert && this.x == this.maze.unitsX && this.y == this.maze.exitY) this.active = false;
   }
 
   deactivate() {

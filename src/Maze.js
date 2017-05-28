@@ -66,12 +66,18 @@ class Maze {
   }
 
   regenerate() {
-    // we don't want to reset the start and end
+    this.entranceY = Math.floor(Math.random() * this.unitsY);
+    this.exitY = Math.floor(Math.random() * this.unitsY);
+
     for (let x = 0; x <= this.unitsX * 2 + 1; x++) {
       for (let y = 0; y <= this.unitsY; y++) {
         this.edges[x][y].active = true;
       }
     }
+
+    // reset the exit and entrances
+    this.edges[1][this.entranceY].active = false;
+    this.edges[this.unitsX*2 + 1][this.exitY].active = false;
 
     this.huntAndKill();
     this.path.reset();
